@@ -19,7 +19,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public int RC_SIGN_IN;
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //No call for super(). Bug on API Level > 11.
@@ -34,25 +33,31 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            // already signed in
+            Log.e("Line 74", "Already signed in");
+            Intent signedIn = new Intent(this, MapsActivity.class);
+            startActivity(signedIn);
+            finish();
+   //         startActivity(signedIn);
         } else {
-            // not signed in
+            Log.e("Line 74", "Not signed in");
+            // Choose authentication providers
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                    new AuthUI.IdpConfig.FacebookBuilder().build());
+
+
+// Create and launch sign-in intent
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN);
         }
 
 // ...
 
-// Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.FacebookBuilder().build());
 
-// Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
 
     }
 
