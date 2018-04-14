@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 Intent signedIn = new Intent(this, MapsActivity.class);
-                Log.d("successful", "onActivityResult: "+"Successful");
                 startActivity(signedIn);
                 finish();
             } else {
