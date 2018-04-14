@@ -9,11 +9,19 @@ android:layout_height="match_parent">
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="347dp"
         tools:context=".MapsActivity" />
 
     <TextView
-        android:layout_width="300dp"
-        android:layout_height="300dp" />
+        android:layout_width="match_parent"
+        android:layout_height="89dp" />
+
+    <Button
+        android:id="@+id/inDangerButton"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:onClick="inDangerButton"
+        android:text="@string/inDangerButton" />
+
 
 </LinearLayout>

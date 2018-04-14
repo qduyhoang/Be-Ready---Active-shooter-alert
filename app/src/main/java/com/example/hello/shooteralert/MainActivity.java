@@ -19,6 +19,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public int RC_SIGN_IN;
 
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //No call for super(). Bug on API Level > 11.
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /*setContentView(R.layout.activity_main);*/
+
         RC_SIGN_IN = 123;
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAvailableProviders(providers)
                         .build(),
                 RC_SIGN_IN);
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
