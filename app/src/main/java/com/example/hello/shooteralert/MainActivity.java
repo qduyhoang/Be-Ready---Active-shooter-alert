@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public int RC_SIGN_IN;
-
+    Intent signedIn;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -33,27 +33,29 @@ public class MainActivity extends AppCompatActivity {
 
         RC_SIGN_IN = 123;
 
+        signedIn = new Intent(this, MapsActivity.class);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            // already signed in
+            startActivity(signedIn);
+            finish();
+   //         startActivity(signedIn);
         } else {
-            // not signed in
+            // Choose authentication providers
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                    new AuthUI.IdpConfig.FacebookBuilder().build());
+
+
+            // Create and launch sign-in intent
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN);
         }
 
-// ...
 
-// Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.FacebookBuilder().build());
-
-// Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
 
     }
 
@@ -66,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             // Successfully signed in
             if (resultCode == RESULT_OK) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Intent signedIn = new Intent(this, MapsActivity.class);
                 startActivity(signedIn);
                 finish();
             } else {
