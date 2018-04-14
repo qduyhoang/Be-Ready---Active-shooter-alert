@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                Log.e("Line 74", "Sign-in error: ", response.getError());
+                Log.e("Error:", "Sign-in error: ", response.getError());
             }
         }
     }

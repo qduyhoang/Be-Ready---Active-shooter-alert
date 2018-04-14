@@ -7,7 +7,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
+
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -32,15 +32,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
 
-    private GoogleMap mMap;
-    private Button inDangerButton;
-    private int location_permission;
+    public GoogleMap mMap;
+    public Button inDangerButton;
+    public int location_permission;
     FusedLocationProviderClient mFusedLocationClient;
-    private Location current_location;
+    double current_latitude;
+    double current_longtitude;
     FirebaseDatabase database;
     DatabaseReference myRef;
     FirebaseAuth mAuth;
@@ -48,6 +51,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     String user_id;
     String user_name;
     Uri user_avatar;
+    User user_data;
 
 
 
@@ -56,6 +60,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        inDangerButton = findViewById(R.id.inDangerButton);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -63,8 +68,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
         if ( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
 
-            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  }, location_permission);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, location_permission);
         }
+
         //Access user's information
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -74,20 +80,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             user_avatar = user.getPhotoUrl();
 
         }
-
         //Access database
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");
-
+        myRef = database.getReference().child(user_id);
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d("On data change", "Value is: " + value);
+                user_data = dataSnapshot.getValue(User.class);
+                System.out.print(user_data);
             }
 
             @Override
@@ -97,33 +100,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-
-                            current_location = location;
-                        }
-                    }
-                });
-
-
-        inDangerButton = findViewById(R.id.inDangerButton);
-        //When "In danger" button is clicked
-        inDangerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.e("location", "onClick: "+ user_avatar);
-
-        }
-        });
 
     }
 
@@ -140,15 +116,48 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
-    private void writeNewUser(String id, String name, Uri avatar_uri){
-        User user = new User(user_id, user_name, avatar_uri);
-        database.
+    public void writeNewUser(String name, Uri avatar_uri, double latitude, double longtitude){
+        String avatar_uri_string = avatar_uri.toString();
+        User current_user = new User();
+        current_user.setUser_name(name);
+        current_user.setUser_avatar_URI(avatar_uri_string);
+        current_user.setLatitude(latitude);
+        current_user.setLongtitude(longtitude);
+        myRef.setValue(current_user, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
+                if (databaseError != null) {
+                    Log.e("Error:", "Failed to write message", databaseError.toException());
+                }
+            }
+        });
+
+    }
+    public void inDangerButton(View inDangerButton){
+        if ( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  }, location_permission);
+        };
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+
+                            current_latitude = location.getLatitude();
+                            current_longtitude = location.getAltitude();
+                        }
+                    }
+                });
+        writeNewUser(user_name, user_avatar, current_latitude, current_longtitude);
     }
 }
