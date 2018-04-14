@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "230558966906",
+    "firebase_url": "https://shooteralert-f6b52.firebaseio.com",
+    "project_id": "shooteralert-f6b52",
+    "storage_bucket": "shooteralert-f6b52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230558966906:android:750d284a693aed1f",
+        "android_client_info": {
+          "package_name": "com.example.hello.shooteralert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230558966906-al8vmk8bhfj1jisfjftnb9tpb5t8aqkq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hello.shooteralert",
+            "certificate_hash": "19a1f1989bd348b48b74f63461a438c5da3ac50a"
+          }
+        },
+        {
+          "client_id": "230558966906-2oj7qg4mkom0dik2403fu62fb5tcrg05.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSc-ZAsIX-V0TtvebP9kopFKLPL3_lhKQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230558966906-2oj7qg4mkom0dik2403fu62fb5tcrg05.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

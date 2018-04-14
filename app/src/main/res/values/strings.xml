@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">shooterAlert</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">Main</string>
+    <string name="facebook_login_protocol_scheme">fb428702487575329</string>
+    <string name="facebook_application_id" translatable="false">428702487575329</string>
+    <string name="fui_progress_dialog_signing_up">Creating your shiny new account...</string>
+</resources>
