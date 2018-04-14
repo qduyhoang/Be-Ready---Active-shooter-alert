@@ -18,6 +18,6 @@ public class User {
         this.user_name = user_name;
         this.user_avatar_URI = user_avatar_URI;
     }
-    
+
 
 }

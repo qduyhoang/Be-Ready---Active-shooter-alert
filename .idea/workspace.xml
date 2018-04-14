@@ -32,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MapsActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MapsActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MapsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="92" column="21" lean-forward="false" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="21" />
+            <state relative-caret-position="1428">
+              <caret line="151" column="17" lean-forward="false" selection-start-line="151" selection-start-column="17" selection-end-line="151" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3934#4391#0" expanded="true" />
@@ -48,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="4" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+            <state relative-caret-position="285">
+              <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -61,8 +61,8 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="73" column="47" lean-forward="false" selection-start-line="73" selection-start-column="47" selection-end-line="73" selection-end-column="47" />
+            <state relative-caret-position="534">
+              <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -2157,10 +2157,10 @@
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MapsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/user.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/User.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MapsActivity.java" />
       </list>
     </option>
   </component>
@@ -2478,10 +2478,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="534">
+          <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MapsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="92" column="21" lean-forward="false" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="21" />
+        <state relative-caret-position="1428">
+          <caret line="151" column="17" lean-forward="false" selection-start-line="151" selection-start-column="17" selection-end-line="151" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3934#4391#0" expanded="true" />
@@ -2489,22 +2505,6 @@
             <element signature="e#4543#4718#0" expanded="true" />
             <element signature="e#4717#4718#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="73" column="47" lean-forward="false" selection-start-line="73" selection-start-column="47" selection-end-line="73" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hello/shooteralert/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="4" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>

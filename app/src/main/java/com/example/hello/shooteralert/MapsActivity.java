@@ -146,4 +146,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
+
+    private void writeNewUser(String id, String name, Uri avatar_uri){
+        User user = new User(user_id, user_name, avatar_uri);
+        database.
+    }
 }
