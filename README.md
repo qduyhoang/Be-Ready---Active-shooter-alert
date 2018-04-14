@@ -1,1 +1,4 @@
-# Be-Ready---Active-shooter-alert
+# Developer: 
+- Duy Nguyen
+- Khanh Tran
+- Duy Hoang
