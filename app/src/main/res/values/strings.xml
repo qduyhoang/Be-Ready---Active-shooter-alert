@@ -6,4 +6,12 @@
     <string name="facebook_application_id" translatable="false">428702487575329</string>
     <string name="fui_progress_dialog_signing_up">Creating your shiny new account...</string>
     <string name="inDangerButton">I\'m in danger</string>
+    <string name="option1">The shooter is near me/ I don\'t know</string>
+    <string name="option2">The shooter is not near me</string>
+    <string name="hide">Hide</string>
+    <string name="evacuate">Evacuate</string>
+    <string name="option3" />
+    <string name="option4" />
+    <string name="back_button">Back</string>
+    <string name="instruction_text">Text</string>
 </resources>

@@ -1,11 +1,10 @@
 package com.example.hello.shooteralert;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 
 import android.os.Bundle;
@@ -93,9 +92,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // whenever data at this location is updated.
                 user_list = new ArrayList<>();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    Log.e("current usera", "onDataChange: "+current_user );
+                    Log.e("current usera", "onDataChange: "+current_user +  ds.getValue(User.class) );
                     user_list.add(ds.getValue(User.class));
-                    Log.e("get out of here", "onDataChange: "+"duyyyyyyyyy" );
                 }
                 updateLocationUI();
             }
@@ -169,6 +167,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
         current_user = writeNewUser(user_id, user_name, user_avatar, current_latitude, current_longtitude);
+        Intent instruction = new Intent(MapsActivity.this, Instruction_1.class);
+        startActivity(instruction);
     };
     public void updateLocationUI() {
         if (mMap == null) {
