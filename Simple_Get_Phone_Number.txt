@@ -1,0 +1,20 @@
+import android.telephony.TelephonyManager;
+import android.content.Context;
+
+/*add this line to manifest*?
+
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+/*------------------------*/
+
+public int read_phone_permission;
+
+if ( ContextCompat.checkSelfPermission( this, Manifest.permission.READ_PHONE_STATE ) != PackageManager.PERMISSION_GRANTED ) {
+ 
+ ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.READ_PHONE_STATE  }, read_phone_permission);
+         };
+if ( ContextCompat.checkSelfPermission( this, Manifest.permission.READ_PHONE_STATE ) == PackageManager.PERMISSION_GRANTED ){
+	TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+	String mPhoneNumber = tMgr.getLine1Number();
+}
+
+
