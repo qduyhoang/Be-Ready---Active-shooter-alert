@@ -32,8 +32,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
@@ -51,7 +51,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     String user_id;
     String user_name;
     Uri user_avatar;
-    User user_data;
+    ArrayList<User> user_list;
+    User current_user;
 
 
 
@@ -82,15 +83,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         //Access database
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference().child(user_id);
+        myRef = database.getReference();
+
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                user_data = dataSnapshot.getValue(User.class);
-                System.out.print(user_data);
+                user_list = new ArrayList<>();
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    Log.e("current usera", "onDataChange: "+current_user );
+                    user_list.add(ds.getValue(User.class));
+                    Log.e("get out of here", "onDataChange: "+"duyyyyyyyyy" );
+                }
+                updateLocationUI();
             }
 
             @Override
@@ -116,20 +123,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng ll = new LatLng(current_latitude, current_longtitude);
+        mMap.addMarker(new MarkerOptions().title(user_name).position(ll));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
+
     }
 
-    public void writeNewUser(String name, Uri avatar_uri, double latitude, double longtitude){
-        String avatar_uri_string = avatar_uri.toString();
+    public User writeNewUser(String id, String name, Uri avatar_uri, double latitude, double longtitude){
+        String avatar_uri_string = "";
+        if (avatar_uri != null){
+            avatar_uri_string = avatar_uri.toString();
+        }
         User current_user = new User();
         current_user.setUser_name(name);
         current_user.setUser_avatar_URI(avatar_uri_string);
         current_user.setLatitude(latitude);
         current_user.setLongtitude(longtitude);
-        myRef.setValue(current_user, new DatabaseReference.CompletionListener() {
+        myRef.child(id).setValue(current_user, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                 if (databaseError != null) {
@@ -137,7 +147,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
-
+        return current_user;
     }
     public void inDangerButton(View inDangerButton){
         if ( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
@@ -158,6 +168,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
-        writeNewUser(user_name, user_avatar, current_latitude, current_longtitude);
+        current_user = writeNewUser(user_id, user_name, user_avatar, current_latitude, current_longtitude);
+    };
+    public void updateLocationUI() {
+        if (mMap == null) {
+            return;
+        }
+        for (int i =0; i<user_list.size(); i++){
+            Log.e("helloo", "updateLocationUI: "+user_list);
+            LatLng ll = new LatLng(user_list.get(i).getLatitude(), user_list.get(i).getLongtitude());
+            mMap.addMarker(new MarkerOptions().position(ll).title(user_list.get(i).getUser_name()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
+        };
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
     }
 }
