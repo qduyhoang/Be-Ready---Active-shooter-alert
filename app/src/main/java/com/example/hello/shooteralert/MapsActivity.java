@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.telephony.gsm.SmsManager;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -40,6 +41,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public GoogleMap mMap;
     public Button inDangerButton;
     public int location_permission;
+    public int sms_permission;
     FusedLocationProviderClient mFusedLocationClient;
     double current_latitude;
     double current_longtitude;
@@ -168,7 +170,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
         current_user = writeNewUser(user_id, user_name, user_avatar, current_latitude, current_longtitude);
         Intent instruction = new Intent(MapsActivity.this, Instruction_1.class);
-        startActivity(instruction);
+        if ( ContextCompat.checkSelfPermission( this, Manifest.permission.SEND_SMS ) != PackageManager.PERMISSION_GRANTED ) {
+
+            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.SEND_SMS  }, sms_permission);
+        };
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage("2676008775",null,"hello",null,null);
     };
     public void updateLocationUI() {
         if (mMap == null) {
