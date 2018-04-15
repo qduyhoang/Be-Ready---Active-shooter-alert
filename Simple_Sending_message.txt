@@ -1,0 +1,16 @@
+/*Add this line to manifest*/
+<uses-permission android:name="android.permission.SEND_SMS"/>
+
+import android.telephony.gsm.SmsManager;
+
+
+public int sms_permission;
+
+if ( ContextCompat.checkSelfPermission( this, Manifest.permission.SEND_SMS ) != PackageManager.PERMISSION_GRANTED ) {
+ 
+ ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.SEND_SMS  }, sms_permission);
+         };
+         SmsManager sms = SmsManager.getDefault();
+if ( ContextCompat.checkSelfPermission( this, Manifest.permission.SEND_SMS ) == PackageManager.PERMISSION_GRANTED )
+         sms.sendTextMessage("2676008775",null,"hello",null,null);
+			      <number>          <text mesenger>
