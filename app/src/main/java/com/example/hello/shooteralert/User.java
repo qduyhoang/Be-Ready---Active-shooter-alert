@@ -4,7 +4,7 @@ package com.example.hello.shooteralert;
 
 public class User {
     public String user_name;
-    public String situation;
+    public String user_avatar_URI;
     public double latitude;
     public double longtitude;
 
@@ -20,12 +20,12 @@ public class User {
         this.user_name = user_name;
     }
 
-    public String getSituation() {
-        return situation;
+    public String getUser_avatar_URI() {
+        return user_avatar_URI;
     }
 
-    public void setSituation(String situation) {
-        this.situation = situation;
+    public void setUser_avatar_URI(String user_avatar_URI) {
+        this.user_avatar_URI = user_avatar_URI;
     }
 
     public double getLatitude() {

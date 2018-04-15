@@ -3,12 +3,8 @@ package com.example.hello.shooteralert;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 
 import android.os.Bundle;
@@ -24,9 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,11 +31,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
@@ -61,10 +52,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Uri user_avatar;
     ArrayList<User> user_list;
     User current_user;
-    HashMap<String,Marker> hashMapMarker;
-    String situation;
-    Geocoder geocoder;
-    List<Address> addresses;
 
 
 
@@ -74,7 +61,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         inDangerButton = findViewById(R.id.inDangerButton);
-        hashMapMarker = new HashMap<>();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -135,20 +121,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Marker marker;
         LatLng ll = new LatLng(current_latitude, current_longtitude);
-        marker = mMap.addMarker(new MarkerOptions().position(ll)
-                .title(user_name)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        mMap.addMarker(new MarkerOptions().title(user_name).position(ll));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
-        hashMapMarker.put(user_name, marker);
 
     }
 
-    public User writeNewUser(String id, String name, String situation, double latitude, double longtitude){
+    public User writeNewUser(String id, String name, Uri avatar_uri, double latitude, double longtitude){
+        String avatar_uri_string = "";
+        if (avatar_uri != null){
+            avatar_uri_string = avatar_uri.toString();
+        }
         User current_user = new User();
         current_user.setUser_name(name);
-        current_user.setSituation(situation);
+        current_user.setUser_avatar_URI(avatar_uri_string);
         current_user.setLatitude(latitude);
         current_user.setLongtitude(longtitude);
         myRef.child(id).setValue(current_user, new DatabaseReference.CompletionListener() {
@@ -180,10 +166,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
-        situation = "Active shooter";
-        current_user = writeNewUser(user_id, user_name, situation , current_latitude, current_longtitude);
-        /*Intent instruction = new Intent(MapsActivity.this, Instruction_1.class);
-        startActivity(instruction);*/
+        current_user = writeNewUser(user_id, user_name, user_avatar, current_latitude, current_longtitude);
+        Intent instruction = new Intent(MapsActivity.this, Instruction_1.class);
+        startActivity(instruction);
     };
     public void updateLocationUI() {
         if (mMap == null) {
@@ -192,42 +177,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i =0; i<user_list.size(); i++){
             Log.e("helloo", "updateLocationUI: "+user_list);
             LatLng ll = new LatLng(user_list.get(i).getLatitude(), user_list.get(i).getLongtitude());
-            if (hashMapMarker.get(user_list.get(i).getUser_name())!= null){
-                hashMapMarker.get(user_list.get(i).getUser_name()).remove();
-            }
-            String streetAddress = getStreetAddress(user_list.get(i).getLatitude(), user_list.get(i).getLongtitude());
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(ll)
-                    .title(user_list.get(i).getSituation())
-                    .snippet(streetAddress));
-            if (user_list.get(i).getSituation() == "Active shooter"){
-                marker.setIcon((BitmapDescriptorFactory.fromResource(R.drawable.rifle)));
-            }
-
+            mMap.addMarker(new MarkerOptions().position(ll).title(user_list.get(i).getUser_name()));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
-            hashMapMarker.put(user_list.get(i).getUser_name(), marker);
         };
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-    }
-
-
-    public String getStreetAddress(double latitude, double longitude) {
-        geocoder = new Geocoder(this, Locale.getDefault());
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String current_address = "3301 Market Street";
-        if (addresses.size() > 0){
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            /*String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-            String postalCode = addresses.get(0).getPostalCode();
-            String knownName = addresses.get(0).getFeatureName();*/
-            return address;
-        }
-        return current_address;
     }
 }
